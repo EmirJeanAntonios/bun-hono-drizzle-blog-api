@@ -3,7 +3,8 @@ import { migrate } from "drizzle-orm/bun-sqlite/migrator";
 import { drizzle } from "drizzle-orm/bun-sqlite";
 import { Database } from "bun:sqlite";
 
-const sqlite = new Database("./blogs.db");
+import { join } from "path";
+
+const sqlite = new Database(join(__dirname, "./blogs.db"));
 const db = drizzle(sqlite);
 await migrate(db, { migrationsFolder: "./drizzle" });
-

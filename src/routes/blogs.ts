@@ -1,10 +1,12 @@
 import { Hono } from "hono";
 import { db } from "../db/db";
+import { blogSchema } from "../db/schemas";
 
-const blogs = new Hono(); // Create a new Hono instance
+const blogRoute = new Hono(); // Create a new Hono instance
 
-blogs.get("/", (c) => {
-  return c.json({ message: "Welcome to the blogs API" });
+blogRoute.get("/", async (c) => {
+  const blogs = await db.select().from(blogSchema.blogs);
+  return c.json(blogs);
 });
 
-export default blogs;
+export default blogRoute;
