@@ -1,5 +1,16 @@
 import { db } from "./db";
 import * as schema from "./schemas/blogSchema";
+import { userSchema } from "./schemas";
+
+await db.insert(userSchema.users).values([
+  {
+    email: "emir@emir.test",
+    password: "$argon2id$v=19$m=65536,t=2,p=1$jJCLP7TWZ6t6ZCbSo4zpKm1rv00Y1bnss6k7CQR9SC8$hK4qVT407OcNwJ6slCj4WvQbC4EvsRqPLV+4NuHAC5M",
+    username: "emir",
+    name: "Emir Antonios",
+  },
+]);
+
 
 await db.insert(schema.blogs).values([
   {

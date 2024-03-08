@@ -8,6 +8,13 @@
       "when": 1709547722239,
       "tag": "0000_gorgeous_enchantress",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1709933533143,
+      "tag": "0001_wild_firelord",
+      "breakpoints": true
     }
   ]
 }

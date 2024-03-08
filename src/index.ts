@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { logger } from "hono/logger";
 import blogs from "./routes/blogs";
+import users from "./routes/users";
 const app = new Hono();
 
 const api = new Hono().basePath("/api/v1");
@@ -11,7 +12,7 @@ app.use(logger());
 
 //***** Api Routes *****/
 api.route("/blogs", blogs);
-
+api.route("/users", users);
 
 //***** Api Routes *****
 
