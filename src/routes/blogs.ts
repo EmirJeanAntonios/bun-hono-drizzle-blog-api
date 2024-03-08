@@ -38,29 +38,26 @@ blogRoute.post(
   }),
   async (c) => {
     const value = c.req.valid("form");
-    if (value?.id) {
-      const blog = await db
-        .select()
-        .from(blogSchema.blogs)
-        .where(eq(blogSchema.blogs.id, value?.id));
-
-      if (blog.length == 0) {
-        await db.insert(blogSchema.blogs).values({
-          ...value,
-          id: undefined,
-        });
-        return c.json({ message: "Successfuly created!" });
-      }
-
-      await db
-        .update(blogSchema.blogs)
-        .set(value)
-        .where(eq(blogSchema.blogs.id, value?.id));
-      return c.json({ message: "Successfuly updated!" });
+    
+    if (!value?.id) {
+      await db.insert(blogSchema.blogs).values(value);
+      return c.json({ message: "Successfuly created!" });
     }
 
-    await db.insert(blogSchema.blogs).values(value);
-    return c.json({ message: "Successfuly created!" });
+    const blog = await db
+      .select()
+      .from(blogSchema.blogs)
+      .where(eq(blogSchema.blogs.id, value?.id));
+
+    if (blog.length == 0) {
+      return c.json({ message: "Blog not found!" }, 404);
+    }
+
+    await db
+      .update(blogSchema.blogs)
+      .set(value)
+      .where(eq(blogSchema.blogs.id, value?.id));
+    return c.json({ message: "Successfuly updated!" });
   }
 );
 
