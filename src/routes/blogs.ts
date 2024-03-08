@@ -38,7 +38,7 @@ blogRoute.post(
   }),
   async (c) => {
     const value = c.req.valid("form");
-    
+
     if (!value?.id) {
       await db.insert(blogSchema.blogs).values(value);
       return c.json({ message: "Successfuly created!" });
@@ -60,5 +60,23 @@ blogRoute.post(
     return c.json({ message: "Successfuly updated!" });
   }
 );
+
+
+blogRoute.delete("/:id", async (c) => {
+  const id = c.req.param("id") as string;
+  const blog = await db
+    .select()
+    .from(blogSchema.blogs)
+    .where(eq(blogSchema.blogs.id, parseInt(id)));
+
+  if (blog.length == 0) {
+    return c.json({ message: "Blog not found!" }, 404);
+  }
+
+  await db
+    .delete(blogSchema.blogs)
+    .where(eq(blogSchema.blogs.id, parseInt(id)));
+  return c.json({ message: "Successfuly deleted!" });
+});
 
 export default blogRoute;
